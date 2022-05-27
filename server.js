@@ -2,12 +2,53 @@ const http = require('http');
 const fs = require('fs')
 const url = require('url');
 const querystring = require('querystring');
-const figlet = require('figlet')
+const figlet = require('figlet');
+
+
 
 const server = http.createServer((req, res) => {
   const page = url.parse(req.url).pathname;
   const params = querystring.parse(url.parse(req.url).query);
 
+  function apiTimeout(){
+    if('choice' in params){
+      let serverChoice = rps()
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      let objToJson = {
+        enemyMove:serverChoice,
+        winStatus:'indeterminate'
+      }
+      if(serverChoice === 'rock' && params['choice'] == 'rock'){
+        objToJson.winStatus = 'tie'
+      }
+      else if(serverChoice === 'rock' && params['choice'] == 'paper'){
+        objToJson.winStatus = 'win'
+      }
+      else if(serverChoice === 'rock' && params['choice'] == 'scissors'){
+        objToJson.winStatus = 'loss'
+      }
+      else if(serverChoice === 'scissors' && params['choice'] == 'scissors'){
+        objToJson.winStatus = 'tie'
+      }
+      else if(serverChoice === 'scissors' && params['choice'] == 'rock'){
+        objToJson.winStatus = 'win'
+      }
+      else if(serverChoice === 'scissors' && params['choice'] == 'paper'){
+        objToJson.winStatus = 'loss'
+      }
+      else if(serverChoice === 'paper' && params['choice'] == 'paper'){
+        objToJson.winStatus = 'tie'
+      }
+      else if(serverChoice === 'paper' && params['choice'] == 'scissors'){
+        objToJson.winStatus = 'win'
+      }
+      else if(serverChoice === 'paper' && params['choice'] == 'rock'){
+        objToJson.winStatus = 'loss'
+      }
+     
+      res.end(JSON.stringify(objToJson));     
+  }
+  }
   if (page == '/') {
     fs.readFile('index.html', function(err, data) {
       res.writeHead(200, {'Content-Type': 'text/html'});
@@ -16,44 +57,8 @@ const server = http.createServer((req, res) => {
     });
   }
   else if (page == '/api') {
-    if('choice' in params){
-        let serverChoice = rps()
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        let objToJson = {
-          enemyMove:serverChoice,
-          winStatus:'indeterminate'
-        }
-        if(serverChoice === 'rock' && params['choice'] == 'rock'){
-          objToJson.winStatus = 'tie'
-        }
-        else if(serverChoice === 'rock' && params['choice'] == 'paper'){
-          objToJson.winStatus = 'win'
-        }
-        else if(serverChoice === 'rock' && params['choice'] == 'scissors'){
-          objToJson.winStatus = 'loss'
-        }
-        else if(serverChoice === 'scissors' && params['choice'] == 'scissors'){
-          objToJson.winStatus = 'tie'
-        }
-        else if(serverChoice === 'scissors' && params['choice'] == 'rock'){
-          objToJson.winStatus = 'win'
-        }
-        else if(serverChoice === 'scissors' && params['choice'] == 'paper'){
-          objToJson.winStatus = 'loss'
-        }
-        else if(serverChoice === 'paper' && params['choice'] == 'paper'){
-          objToJson.winStatus = 'tie'
-        }
-        else if(serverChoice === 'paper' && params['choice'] == 'scissors'){
-          objToJson.winStatus = 'win'
-        }
-        else if(serverChoice === 'paper' && params['choice'] == 'rock'){
-          objToJson.winStatus = 'loss'
-        }
-       
-        res.end(JSON.stringify(objToJson));     
-    }//student if
-  }//else if
+   setTimeout(apiTimeout, 1000)
+  }
   else if (page == '/style.css'){
     fs.readFile('style.css', function(err, data) {
       res.write(data);
@@ -67,23 +72,59 @@ const server = http.createServer((req, res) => {
       res.end();
     });
   }
-  else if(page == '/paper.png'){
-    fs.readFile('paper.png', function(err, data){
+  else if(page == '/media/paper.png'){
+    fs.readFile('media/paper.png', function(err, data){
       res.writeHead(200, {'Content-Type': 'image'});
       res.write(data);
       res.end();
     })
   }
-  else if(page =='/rock.png'){
-    fs.readFile('rock.png', function(err, data){
+  else if(page =='/media/rock.png'){
+    console.log('we want rock!')
+    fs.readFile('media/rock.png', function(err, data){
       res.writeHead(200, {'Content-Type': 'image'});
       res.write(data);
       res.end();
     })
   }
-  else if(page == '/scissors.png'){
-  fs.readFile('scissors.png', function(err, data){
+  else if(page == '/media/scissors.png'){
+  fs.readFile('media/scissors.png', function(err, data){
     res.writeHead(200, {'Content-Type': 'image'});
+    res.write(data);
+    res.end();
+  })
+}
+else if(page == '/media/scissors.mp3'){
+  fs.readFile('media/scissors.mp3', function(err, data){
+    res.writeHead(200, {'Content-Type': 'audio/mpeg'});
+    res.write(data);
+    res.end();
+  })
+}
+else if(page =='/media/rock.mp3'){
+  fs.readFile('media/rock.mp3', function(err, data){
+    res.writeHead(200, {'Content-Type': 'audio/mpeg'});
+    res.write(data);
+    res.end();
+  })
+}
+else if(page == '/media/paper.mp3'){
+  fs.readFile('media/paper.mp3', function(err, data){
+    res.writeHead(200, {'Content-Type': 'audio/mpeg'});
+    res.write(data);
+    res.end();
+  })
+}
+else if(page == '/media/loss.mp3'){
+  fs.readFile('media/loss.mp3', function(err, data){
+    res.writeHead(200, {'Content-Type': 'audio/mpeg'});
+    res.write(data);
+    res.end();
+  })
+}
+else if(page == '/media/win.mp3'){
+  fs.readFile('media/win.mp3', function(err, data){
+    res.writeHead(200, {'Content-Type': 'audio/mpeg'});
     res.write(data);
     res.end();
   })
