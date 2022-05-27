@@ -59,13 +59,36 @@ const server = http.createServer((req, res) => {
       res.write(data);
       res.end();
     });
-  }else if (page == '/javascript.js'){
+  }
+  else if (page == '/javascript.js'){
     fs.readFile('javascript.js', function(err, data) {
       res.writeHead(200, {'Content-Type': 'text/javascript'});
       res.write(data);
       res.end();
     });
-  }else{
+  }
+  else if(page == '/paper.png'){
+    fs.readFile('paper.png', function(err, data){
+      res.writeHead(200, {'Content-Type': 'image'});
+      res.write(data);
+      res.end();
+    })
+  }
+  else if(page =='/rock.png'){
+    fs.readFile('rock.png', function(err, data){
+      res.writeHead(200, {'Content-Type': 'image'});
+      res.write(data);
+      res.end();
+    })
+  }
+  else if(page == '/scissors.png'){
+  fs.readFile('scissors.png', function(err, data){
+    res.writeHead(200, {'Content-Type': 'image'});
+    res.write(data);
+    res.end();
+  })
+}
+  else{
     figlet('404!!', function(err, data) {
       if (err) {
           console.log('Something went wrong...');
