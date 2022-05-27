@@ -1,6 +1,5 @@
 //variables for our audio
 const rockAudio = new Audio(document.querySelector('#rockAudio').src);
-console.log(rockAudio)
 const paperAudio = new Audio('media/paper.mp3');
 const scissorsAudio = new Audio('media/scissors.mp3');
 const winAudio = new Audio('media/win.mp3');
@@ -36,7 +35,6 @@ async function makeReq(choice){
   let res = await fetch(`/api?choice=${choice}`)
   let data = await res.json()
   
-  console.log(data);
 //data provided by server will be an object and have an enemy move and win status properties.
 if(data.winStatus === 'win'){
   // win here
