@@ -1,23 +1,34 @@
-document.querySelector('#clickMe').addEventListener('click', makeReq)
 
+document.querySelector('button').addEventListener('click', makeReq)
+let resultText = document.querySelector('h3')
+console.log('test')
 async function makeReq(){
-
-  const userName = document.querySelector("#userName").value;
-  const res = await fetch(`/api?student=${userName}`)
-  const data = await res.json()
-
+  resultText.innerText = 'result';
+  let choice = document.querySelector("input").value;
+  let res = await fetch(`/api?choice=${choice}`)
+  let data = await res.json()
+  
   console.log(data);
 //data provided by server will be an object and have an enemy move and win status properties.
 if(data.winStatus === 'win'){
   // win here
-  console.log('win')
+  //resultText.innerText = figlet("Result: YOU WIN!! Your server side enemy foolishly chose " + data.enemyMove + ".");
+  figlet('404!!', function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    res.write(data);
+    res.end();
+  });
 }
 else if(data.winStatus === 'tie'){
 //tie here
-console.log('tie')
+resultText.innerText = "Result: YOU TIE!! Your server side enemy chose the SAME MOVE!"
 }
 else{
   //loss
-  console.log('loss')
+  resultText.innerText = "Result: YOU LOSE!! Your server side enemy chose " +data.enemyMove +" And defeated your foolish move."
 }
 }
