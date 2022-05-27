@@ -12,16 +12,8 @@ async function makeReq(){
 //data provided by server will be an object and have an enemy move and win status properties.
 if(data.winStatus === 'win'){
   // win here
-  //resultText.innerText = figlet("Result: YOU WIN!! Your server side enemy foolishly chose " + data.enemyMove + ".");
-  figlet('404!!', function(err, data) {
-    if (err) {
-        console.log('Something went wrong...');
-        console.dir(err);
-        return;
-    }
-    res.write(data);
-    res.end();
-  });
+  resultText.innerText = figlet("Result: YOU WIN!! Your server side enemy foolishly chose " + data.enemyMove + ".");
+
 }
 else if(data.winStatus === 'tie'){
 //tie here
