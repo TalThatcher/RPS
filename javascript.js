@@ -15,7 +15,6 @@ let resultText = document.querySelector('h3');
 document.querySelector('#rock').addEventListener('click', function(){makeReq('rock')})
 document.querySelector('#paper').addEventListener('click', function(){makeReq('paper')})
 document.querySelector('#scissors').addEventListener('click', function(){makeReq('scissors')})
-console.log('test')
 
 async function makeReq(choice){
   if(choice === 'rock'){
@@ -40,7 +39,8 @@ if(data.winStatus === 'win'){
   // win here
   resultText.innerText = "Result: YOU WIN!! Your server side enemy foolishly chose " + data.enemyMove + ".";
   resultText.style.color = 'orange'
-
+  winAudio.load()
+  winAudio.play()
 }
 else if(data.winStatus === 'tie'){
 //tie here
@@ -51,5 +51,7 @@ else{
   //loss
   resultText.innerText = "Result: YOU LOSE!! Your server side enemy chose " +data.enemyMove +" and defeated your foolish move."
   resultText.style.color = 'cyan'
+  lossAudio.load()
+  lossAudio.play()
 }
 }
